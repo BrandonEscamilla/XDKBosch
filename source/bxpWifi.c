@@ -25,7 +25,6 @@
 
 /* system header files */
 #include <stdint.h>
-#include <string.h>
 
 /* own header files */
 #include "BCDS_bxpWifi.h"
@@ -61,6 +60,8 @@ void *g_mac_addr = (void*)wifiMacAddress;
  */
 void wifiInit(void)
 {
+	printf("wifiInit \r\n");
+
 	/* Initialize Variables */
 	uint8_t _macVal[WIFI_MAC_ADDR_LEN];
 	uint8_t _macAddressLen = WIFI_MAC_ADDR_LEN;
@@ -68,8 +69,6 @@ void wifiInit(void)
 	memset(&myIpSettings, (uint32_t) 0, sizeof(myIpSettings));
 	int8_t ipAddress[PAL_IP_ADDRESS_SIZE] = {0};
 	Ip_Address_T* IpaddressHex = Ip_getMyIpAddr();
-	uint8_t securityKeyLength;
-	WlanConnect_SecurityMode_T securityType;
 	WlanConnect_SSID_T connectSSID;
 	WlanConnect_PassPhrase_T connectPassPhrase;
 
@@ -80,9 +79,7 @@ void wifiInit(void)
 		return;
 	}
 
-	/* Get the SSID, PWD and Security Type for the WiFi Network */
-	securityKeyLength = (uint8_t) CFG_getWlanSecurityKeyLength();
-	securityType = (WlanConnect_SecurityMode_T) CFG_getWlanSecurityType();
+	/* Get the SSID and PWD for the WiFi Network */
 	connectSSID = (WlanConnect_SSID_T) CFG_getWlanSsid();
 	connectPassPhrase = (WlanConnect_PassPhrase_T) CFG_getWlanPwd();
 	printf("Connecting to %s \r\n", connectSSID);
@@ -95,56 +92,21 @@ void wifiInit(void)
 	}
 
 	/* Connect to the Wireless Network */
-	printf("Security Type: %s \r\n ", securityType);
-
-	if(strcmp(securityType, "OPEN") == 0){
-		printf("Connecting to open network: %s \r\n ", connectSSID);
-
-		if (RETCODE_SUCCESS == WlanConnect_Open(connectSSID, NULL)) {
-				NetworkConfig_GetIpSettings(&myIpSettings);
-				*IpaddressHex = Basics_htonl(myIpSettings.ipV4);
-				(void)Ip_convertAddrToString(IpaddressHex,(char *)&ipAddress);
-				printf("Connected to OPEN network successfully. \r\n");
-				printf("Ip address of the device: %s \r\n",ipAddress);
-			}
-			else  {
-				printf("Error occurred connecting bb %s \r\n ", connectSSID);
-				return;
-			}
-	} else if(strcmp(securityType, "WEP") == 0){
-		printf("Connecting to wep network: %s \r\n ", connectSSID);
-
-		if (RETCODE_SUCCESS == WlanConnect_WEP_Open(connectSSID, connectPassPhrase, securityKeyLength, NULL)) {
-			NetworkConfig_GetIpSettings(&myIpSettings);
-			*IpaddressHex = Basics_htonl(myIpSettings.ipV4);
-			(void)Ip_convertAddrToString(IpaddressHex,(char *)&ipAddress);
-			printf("Connected to WEP network successfully. \r\n");
-			printf("Ip address of the device: %s \r\n",ipAddress);
-		}
-		else  {
-			printf("Error occurred connecting bb %s \r\n ", connectSSID);
-			return;
-		}
-	} else {
-		printf("Connecting to wpa network: %s \r\n ", connectSSID);
-
-		if (RETCODE_SUCCESS == WlanConnect_WPA(connectSSID, connectPassPhrase, NULL)) {
-			NetworkConfig_GetIpSettings(&myIpSettings);
-			*IpaddressHex = Basics_htonl(myIpSettings.ipV4);
-			(void)Ip_convertAddrToString(IpaddressHex,(char *)&ipAddress);
-			printf("Connected to WPA network successfully. \r\n");
-			printf("Ip address of the device: %s \r\n",ipAddress);
-		}
-		else  {
-			printf("Error occurred connecting bb %s \r\n ", connectSSID);
-			return;
-		}
-
+	if (RETCODE_SUCCESS == WlanConnect_WPA(connectSSID, connectPassPhrase, NULL)) {
+		NetworkConfig_GetIpSettings(&myIpSettings);
+		*IpaddressHex = Basics_htonl(myIpSettings.ipV4);
+		(void)Ip_convertAddrToString(IpaddressHex,(char *)&ipAddress);
+		printf("Connected to WPA network successfully. \r\n");
+		printf("Ip address of the device: %s \r\n",ipAddress);
+	}
+	else  {
+		printf("Error occurred connecting aa %s \r\n ", connectSSID);
+		return;
 	}
 
-
 	/* Get the MAC Address */
-	memset(_macVal, NUMBER_UINT8_ZERO, WIFI_MAC_ADDR_LEN);	int8_t _status = sl_NetCfgGet(SL_MAC_ADDRESS_GET,
+	memset(_macVal, NUMBER_UINT8_ZERO, WIFI_MAC_ADDR_LEN);
+	int8_t _status = sl_NetCfgGet(SL_MAC_ADDRESS_GET,
 									NULL,
 									&_macAddressLen,
 									(uint8_t *) _macVal);

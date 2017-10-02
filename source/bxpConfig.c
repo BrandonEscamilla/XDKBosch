@@ -504,20 +504,6 @@ void CFG_init(void){
 }
 
 
-/**
- * @brief in CFG_parser_ih.h header
- */
-uint8_t CFG_getWlanSecurityKeyLength(void) {
-		return CFG_DEFAULT_WLAN_PWD_LENGTH;
-}
-
-
-/**
- * @brief in CFG_parser_ih.h header
- */
-const char *CFG_getWlanSecurityType(void) {
-		return CFG_DEFAULT_WLAN_TYPE;
-}
 
 /**
  * @brief in CFG_parser_ih.h header

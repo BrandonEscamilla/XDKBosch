@@ -80,7 +80,7 @@ void Sensor_deinit(void);
 extern DataBuffer g_sensorStreamBuffer;
 extern DataBuffer g_sensorReportBuffer;
 extern DataBuffer g_sensorConfigBuffer;
-extern int sendNotification;
+
 /* inline function definitions */
 
 #endif /* _BCDS_BXP_SENSOR_H_ */

@@ -1,25 +1,25 @@
 /******************************************************************************
- **	COPYRIGHT (c) 2016		Bosch Connected Devices and Solutions GmbH
- **
- **	The use of this software is subject to the XDK SDK EULA
- **
- *******************************************************************************
- **
- **	OBJECT NAME:	BCDS_bxpConfig.h
- **
- **	DESCRIPTION:	Configuration header for the MQTT Paho Client
- **
- **	PURPOSE:        Contains the common macro, typedef, variables and function
- **	                definitions for the entire project
- **
- **	AUTHOR(S):      Bosch Connected Devices and Solutions GmbH (BCDS)
- **
- **	Revision History:
- **
- **	Date			 Name		Company      Description
- **  2016.Apr         crk        BCDS         Initial Release
- **
- *******************************************************************************/
+**	COPYRIGHT (c) 2016		Bosch Connected Devices and Solutions GmbH
+**
+**	The use of this software is subject to the XDK SDK EULA
+**
+*******************************************************************************
+**
+**	OBJECT NAME:	BCDS_bxpConfig.h
+**
+**	DESCRIPTION:	Configuration header for the MQTT Paho Client
+**
+**	PURPOSE:        Contains the common macro, typedef, variables and function
+**	                definitions for the entire project
+**
+**	AUTHOR(S):      Bosch Connected Devices and Solutions GmbH (BCDS)
+**
+**	Revision History:
+**
+**	Date			 Name		Company      Description
+**  2016.Apr         crk        BCDS         Initial Release
+**
+*******************************************************************************/
 
 /* header definition ******************************************************** */
 #ifndef _BCDS_BXP_CONFIG_H_
@@ -36,12 +36,10 @@
 
 #warning Provide Default WLAN and MQTT Configuration Here
 // Default Network Configuration Settings
-#define	CFG_DEFAULT_WLAN_TYPE	  		"WPA-2"      	      /**< WLAN Security Mode Name by Default*/
-#define	CFG_DEFAULT_WLAN_PWD_LENGTH	    13      	          /**< WLAN Security key length by Default (64 or 128bits) Only WEP*/
-#define	CFG_DEFAULT_WLAN_SSID	  		"AndroidAP"      	  	  /**< WLAN SSID Name by Default*/
-#define	CFG_DEFAULT_WLAN_PWD	  		"12345678"     /**< WLAN PWD by Default*/
-#define CFG_DEFAULT_MQTT_BROKER_NAME    "mqtt.bosch-si.com"   /**< MQTT Broker by Default*/
-#define CFG_DEFAULT_MQTT_PORT           1883                  /**< MQTT Port Number by Default*/
+#define	CFG_DEFAULT_WLAN_SSID	  		"MegacableCPMX8"      	  /**< WLAN SSID Name by Default*/
+#define	CFG_DEFAULT_WLAN_PWD	  		""   		  /**< WLAN PWD by Default*/
+#define CFG_DEFAULT_MQTT_BROKER_NAME    "mqtt.bosch-si.com"          /**< MQTT Broker by Default*/
+#define CFG_DEFAULT_MQTT_PORT           1883                          /**< MQTT Port Number by Default*/
 
 /**
  *  The Stream Rate is period by which the live data is sent
@@ -51,7 +49,7 @@
  */
 
 // Default Data Configuration Settings
-#define CFG_DEFAULT_STREAM_RATE         300/portTICK_RATE_MS     /**< Stream Data Rate by Default*/
+#define CFG_DEFAULT_STREAM_RATE         1000/portTICK_RATE_MS     /**< Stream Data Rate by Default*/
 #define CFG_DEFAULT_REPORT_SAMPLES      10                        /**< Data Average Report Samples by Default*/
 #define CFG_DEFAULT_CONFIG_RATE         120000/portTICK_RATE_MS   /**< Coniguration Data Rate by Default*/
 #define CFG_DEFAULT_GROUP_ID            "Default"                 /**< Devices Group ID by Default*/
@@ -72,19 +70,6 @@
  *         NULL if the task could not be created !
  */
 void CFG_init(void);
-
-
-/**
- * @Brief returns the WLAN WEP Key lenght (64 or 128bits) defined in the configuration file
- *        or the default WLAN SSID name
- */
-uint8_t CFG_getWlanSecurityKeyLength(void);
-
-/**
- * @Brief returns the WLAN Security Type defined in the configuration file
- *        or the default WLAN SSID name
- */
-const char *CFG_getWlanSecurityType(void);
 
 /**
  * @Brief returns the WLAN SSID name defined in the configuration file

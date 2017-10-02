@@ -58,7 +58,6 @@
 DataBuffer g_sensorStreamBuffer;
 DataBuffer g_sensorReportBuffer;
 DataBuffer g_sensorConfigBuffer;
-int sendNotification = 0;
 
 /* inline functions ********************************************************* */
 
@@ -512,9 +511,6 @@ void Sensor_sendStreamDataTimerHandler(xTimerHandle pvParameters)
 	/**** Send the Report Data if the Correct Number of Samples have been taken ****/
 	if (s_sensorRunAvgCounter == ((uint32_t) CFG_getReportSamples())) {
 		Sensor_sendReportData();
-		if(_envData.temperature > 31000){
-			sendNotification = 1;
-		}
 	}
 }
 

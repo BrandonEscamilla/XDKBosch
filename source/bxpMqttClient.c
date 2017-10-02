@@ -68,16 +68,11 @@ char clientTopicReport[CLIENT_BUFF_SIZE];
 char clientTopicConfig[CLIENT_BUFF_SIZE];
 char clientTopicSingleConfig[CLIENT_BUFF_SIZE];
 char clientTopicGroupConfig[CLIENT_BUFF_SIZE];
-//TODO
-char clientTopicNotificationAlarm[CLIENT_BUFF_SIZE];
-
 const char *clientTopicStream_ptr = TOPIC_OUT_STREAM;
 const char *clientTopicReport_ptr = TOPIC_OUT_REPORT;
 const char *clientTopicConfig_ptr = TOPIC_OUT_CONFIG;
 const char *clientTopicSingleConfig_ptr = TOPIC_IN_CONFIG;
 const char *clientTopicGroupConfig_ptr = TOPIC_GROUP_CONFIG;
-//TODO
-const char *clientTopicNotificationAlarm_ptr = TOPIC_NOTIFICATION_ALARM;
 
 /* global variables ********************************************************* */
 // Network and Client Configuration
@@ -250,16 +245,6 @@ static void clientTask(void *pvParameters)
         	memset(g_sensorConfigBuffer.data, 0x00, SENSOR_DATA_BUF_SIZE);
         	g_sensorConfigBuffer.length = NUMBER_UINT32_ZERO;
         }
-        else if(sendNotification == 1)
-        {
-			msg.id = clientMessageId++;
-			msg.qos = 0;
-			msg.payload = "Alerta posible presencia de fuego, verificar sensores y emitir alertas";
-			msg.payloadlen = 70;
-			MQTTPublish(&c, clientTopicNotificationAlarm_ptr, &msg);
-
-			sendNotification = NUMBER_UINT32_ZERO;
-        }
         /**** Subscribe to New Topics ****/
         else if(SUBCRIBE_UPDATE == clientQueue) {
             //mqttClientUnSubscribe();
@@ -354,10 +339,6 @@ void clientInit(void)
 	memset(clientTopicGroupConfig, 0x00, CLIENT_BUFF_SIZE);
 	sprintf((char*) clientTopicGroupConfig, TOPIC_GROUP_CONFIG, (const char*) data.clientID.cstring);
 	clientTopicGroupConfig_ptr = (char*) clientTopicGroupConfig;
-	//TODO adding new topic
-	memset(clientTopicNotificationAlarm, 0x00, CLIENT_BUFF_SIZE);
-	sprintf((char*) clientTopicNotificationAlarm, TOPIC_NOTIFICATION_ALARM, (const char*) data.clientID.cstring);
-	clientTopicNotificationAlarm_ptr = (char*) clientTopicNotificationAlarm;
 
 	/* Subscribe to the Topics (set callback functions) */
     rc = MQTTSubscribe(&c, clientTopicSingleConfig_ptr, QOS0, clientRecv);

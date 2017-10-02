@@ -40,7 +40,6 @@
 #define TOPIC_OUT_CONFIG        "BCDS/XDK/single/%s/out/config"
 #define TOPIC_IN_CONFIG         "BCDS/XDK/single/%s/in/config"
 #define TOPIC_GROUP_CONFIG      "BCDS/XDK/group/%s/in/config"
-#define TOPIC_NOTIFICATION_ALARM      "BCDS/XDK/single/%s/notification/alarm"
 
 // MQTT Event Messages Index
 typedef enum events
